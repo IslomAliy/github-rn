@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Image, View} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {styles} from './styles';
 import {getUserRepos} from '../../services/user';
 import InfoTextWrapper from './InfoTextWrapper';
@@ -22,6 +22,14 @@ const User = () => {
   const [repos, setRepos] = useState([]);
   const route = useRoute();
   const {userData} = route.params as UserRouteParams;
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: userData.name ?? userData.login,
+    });
+  }, [navigation, userData]);
+
   useEffect(() => {
     if (userData.login) {
       getUserRepos(userData.login)
