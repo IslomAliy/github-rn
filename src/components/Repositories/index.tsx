@@ -1,6 +1,7 @@
 import React, {useRef} from 'react';
-import {Text, Animated} from 'react-native';
-import {styles} from './styles';
+import {Animated} from 'react-native';
+import HeadSection from '../HeadSection/HeadSection';
+import RenderItem from './RenderItem';
 
 interface Repo {
   name: string;
@@ -9,8 +10,16 @@ interface Repo {
   language: string;
 }
 
+interface userData {
+  avatar_url: string;
+  followers: string;
+  following: string;
+  public_repos: string;
+}
+
 interface Props {
   repos: Repo[];
+  userData: userData;
 }
 
 type ItemType = {
@@ -18,19 +27,10 @@ type ItemType = {
   index: number;
 };
 
-const Repositories: React.FC<Props> = ({repos}) => {
+const Repositories: React.FC<Props> = ({repos, userData}) => {
   const scrollY = useRef(new Animated.Value(0)).current;
-  const ITEM_SIZE = 70 + 20 * 3;
   const renderItem = ({item, index}: ItemType) => {
-    const inputRange = [-1, 0, ITEM_SIZE * index, ITEM_SIZE * (index + 2)];
-    const scale = scrollY.interpolate({inputRange, outputRange: [1, 1, 1, 0]});
-    return (
-      <Animated.View style={[styles.itemContainer, {transform: [{scale}]}]}>
-        <Text style={styles.repoName}>{item.name}</Text>
-        <Text style={styles.repoDescription}>{item.description}</Text>
-        <Text style={styles.language}>{item.language}</Text>
-      </Animated.View>
-    );
+    return <RenderItem item={item} index={index} scrollY={scrollY} />;
   };
 
   return (
@@ -38,6 +38,7 @@ const Repositories: React.FC<Props> = ({repos}) => {
       onScroll={Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
         useNativeDriver: true,
       })}
+      ListHeaderComponent={<HeadSection userData={userData} />}
       data={repos}
       keyExtractor={item => item.id}
       renderItem={renderItem}
