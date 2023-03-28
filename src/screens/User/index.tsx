@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Image, View} from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {View} from 'react-native';
+import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {styles} from './styles';
 import {getUserRepos} from '../../services/user';
-import InfoTextWrapper from './InfoTextWrapper';
 import Repositories from '../../components/Repositories';
 
 interface UserRouteParams {
@@ -18,10 +17,12 @@ interface UserRouteParams {
   };
 }
 
+type UserRouteProp = RouteProp<Record<string, UserRouteParams>, string>;
+
 const User = () => {
   const [repos, setRepos] = useState([]);
-  const route = useRoute();
-  const {userData} = route.params as UserRouteParams;
+  const route = useRoute<UserRouteProp>();
+  const {userData} = route.params;
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -35,32 +36,13 @@ const User = () => {
       getUserRepos(userData.login)
         .then(res => {
           setRepos(res.data);
-          console.log(res);
         })
         .catch(err => console.log(err));
     }
   }, [userData]);
   return (
     <View style={styles.scrollView}>
-      <View style={styles.headSection}>
-        <Image
-          source={{uri: userData.avatar_url}}
-          style={styles.userImage}
-          alt="user"
-        />
-        <View style={styles.userInfo}>
-          <InfoTextWrapper
-            info={userData.followers}
-            secondaryText="Followers"
-          />
-          <InfoTextWrapper
-            info={userData.following}
-            secondaryText="Following"
-          />
-          <InfoTextWrapper info={userData.public_repos} secondaryText="Repos" />
-        </View>
-      </View>
-      <Repositories repos={repos} />
+      <Repositories repos={repos} userData={userData} />
     </View>
   );
 };
