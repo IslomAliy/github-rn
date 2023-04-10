@@ -1,0 +1,14 @@
+{
+  "root": true,
+  "extends": "@react-native-community",
+  "rules": {
+    "no-multi-spaces": ["off"],
+    "react/jsx-indent": ["off"],
+    "react/jsx-indent-props": ["off"],
+    "react/jsx-curly-spacing": ["off"],
+    "react/jsx-tag-spacing": ["off"],
+    "react/jsx-equals-spacing": ["off"],
+    "react/jsx-closing-tag-location": ["off"],
+    "react/jsx-wrap-multilines": ["off"]
+  }
+}
