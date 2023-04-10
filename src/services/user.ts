@@ -14,7 +14,7 @@ export const getUserRepos = async (username: string) => {
   });
 };
 
-export const InfoTextWrapper = async (
+export const searchUser = async (
   query: string,
   page: number,
   perPage: number
