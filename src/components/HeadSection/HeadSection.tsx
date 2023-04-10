@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Image} from 'react-native';
-import {styles} from '../../screens/User/styles';
-import InfoTextWrapper from '../../screens/User/InfoTextWrapper';
+import { View, Image } from 'react-native';
+import { styles } from '../../screens/UserScreen/styles';
+import InfoTextWrapper from '../../screens/UserScreen/InfoTextWrapper';
 
 type userDataTypes = {
   userData: {
@@ -12,11 +12,11 @@ type userDataTypes = {
   };
 };
 
-const HeadSection = ({userData}: userDataTypes) => {
+const HeadSection = ({ userData }: userDataTypes) => {
   return (
     <View style={styles.headSection}>
       <Image
-        source={{uri: userData.avatar_url}}
+        source={{ uri: userData.avatar_url }}
         style={styles.userImage}
         alt="user"
       />
